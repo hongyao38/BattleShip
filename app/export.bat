@@ -1,0 +1,1 @@
+jpackage -t exe -i . -d . --main-jar BattleShips.jar --main-class main.Main --module-path "C:\Program Files\javafx-jmods-18.0.1" --add-modules javafx.controls,javafx.fxml --win-dir-chooser --win-shortcut --win-menu --icon "res/tiles/Icon.ico" --name "BattleShips" --resource-dir "res"

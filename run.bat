@@ -1,0 +1,1 @@
+compile.bat && java -cp classes main.Main
