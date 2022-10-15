@@ -138,7 +138,7 @@ public class TurnHandler {
         Ship shipHit = player.fleet.get(shipIndex);
         playerBoard[enemy.cursorI][enemy.cursorJ] = 'H';
 
-        // If first hit, set shipSpotted to TRUE
+        // If first hit, set huntMode to TRUE
         if (!enemy.huntMode) {
             enemy.firstHitI = enemy.cursorI;
             enemy.firstHitJ = enemy.cursorJ;
@@ -173,6 +173,7 @@ public class TurnHandler {
             // AI will also get to know if they sunk a ship, thus turning off hunt-mode
             enemy.huntMode = false;
             enemy.isOrientationFigured = false;
+            enemy.isShipVertical = false;
             enemy.huntModeMoves.clear();
 
             // Remove ship length from ships left and re-get possible moves

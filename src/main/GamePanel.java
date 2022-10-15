@@ -134,6 +134,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (turnHandler.isPlayerTurn) {
                 uiHandler.drawSunkShips(g2, enemy.fleet);
                 uiHandler.drawHitsMisses(g2, enemy.board);
+                uiHandler.drawHoverCursor(g2, player.cursorI, player.cursorJ);
             }
 
             if (!turnHandler.isPlayerTurn) {
@@ -141,8 +142,6 @@ public class GamePanel extends JPanel implements Runnable {
                 uiHandler.drawHitsMisses(g2, player.board);
                 uiHandler.showEnemyCursor(g2, enemy.cursorI, enemy.cursorJ);
             }
-
-            uiHandler.drawHoverCursor(g2, player.cursorI, player.cursorJ);
         }
 
         // Draw dialogue box

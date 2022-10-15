@@ -150,6 +150,11 @@ public class Enemy extends Player {
             checkRight(j2, playerBoard);
         }
 
+        if (!isOrientationFigured) {
+            checkUp(i1, playerBoard);
+            checkDown(i2, playerBoard);
+        }
+
         // If no other possible moves in hunt mode, but ship not yet sunken
         // if (huntModeMoves.size() == 0) {
         //     checkSurroundings(firstHitI, firstHitJ);
