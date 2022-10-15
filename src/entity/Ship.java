@@ -1,12 +1,18 @@
 package entity;
 
+import main.GamePanel;
+
 public class Ship {
+
+    private GamePanel gp;
+
     public int health;
     public int length;
     public boolean isVertical;
     public int[] start = new int[2];
 
-    public Ship(int length, boolean isVertical, int i, int j) {
+    public Ship(int length, boolean isVertical, int i, int j, GamePanel gp) {
+        this.gp = gp;
         this.length = length;
         this.health = length;
         this.isVertical = isVertical;
@@ -57,5 +63,10 @@ public class Ship {
                 board[i][j + k] = (char)('0' + order);
             }
         }
+    }
+
+    public void getHit() {
+        health--;
+        gp.playSFX(2);
     }
 }

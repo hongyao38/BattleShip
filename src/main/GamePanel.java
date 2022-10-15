@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import entity.*;
+import sound.Sound;
 import ui.*;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -19,9 +20,12 @@ public class GamePanel extends JPanel implements Runnable {
     int FPS = 60;
     Thread gameThread;
 
-    // Game Paremeters
+    // Application Paremeters
     public MouseHandler mouseHandler = new MouseHandler(this);
     public UIHandler uiHandler       = new UIHandler(this);
+    public Sound soundHandler        = new Sound();
+
+    // Game Parameters
     public TurnHandler turnHandler   = new TurnHandler(this);
     public Player player             = new Player(this);
     public Enemy enemy               = new Enemy(this);
@@ -45,6 +49,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void newGame() {
+        if (soundHandler.isPlaying()) stopMusic();
+        playMusic(0);
+        soundHandler.setVolume(0.25f);
+
         // Show tutorial to draw board, then set up board
         player.showDialogue("Position your ships to prepare for battle!");
         player.showDialogue("LMB to place a ship, RMB to rotate");
@@ -74,9 +82,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Display Win/Lose
         if (turnHandler.playerWin) {
+            playSFX(4);
             player.showDialogue("Well done! You have sunk all enemy ships!");
             
         } else if (turnHandler.playerLose) {
+            playSFX(5);
             player.showDialogue("Ugh! They have sunk all of our ship!");
         }
         player.inPlayPhase = false;
@@ -151,5 +161,21 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Draw cursor (FOREVER)
         uiHandler.drawMainCursor(g2, mouseHandler.x, mouseHandler.y);
+    }
+
+    public void playMusic(int i) {
+        soundHandler.setFile(i);
+        soundHandler.play();
+        soundHandler.loop();
+    }
+
+    public void stopMusic() {
+        soundHandler.stop();
+    }
+
+    public void playSFX(int i) {
+        // SFX do not need to loop
+        soundHandler.setFile(i);
+        soundHandler.play();
     }
 }

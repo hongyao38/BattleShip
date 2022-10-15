@@ -215,6 +215,11 @@ public class UIHandler {
         int width = gp.tileSize * 10;
         int height = gp.tileSize * 2;
 
+        // Darken background
+        Color c = new Color(50, 50, 50, 150);
+        g2.setColor(c);
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
         // Draw win/lose state if necessary
         if (gp.turnHandler.playerWin) {
             g2.drawImage(gp.uiHandler.tiles[30].image, 0, 0, gp.screenWidth, gp.screenHeight, null);
@@ -227,7 +232,7 @@ public class UIHandler {
         g2.drawImage(dialogue.speaker.image, 0, gp.tileSize * 7, gp.tileSize * 5, gp.tileSize * 5,null);
 
         // Draw dialogue window (WHITE)
-        Color c = new Color(255, 255, 255, 220);
+        c = new Color(255, 255, 255, 220);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 35, 35);
 

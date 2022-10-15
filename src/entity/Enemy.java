@@ -80,7 +80,7 @@ public class Enemy extends Player {
             isVertical = false;
 
             // Create new ship object
-            Ship newShip = new Ship(len, isVertical, cursorI, cursorJ);
+            Ship newShip = new Ship(len, isVertical, cursorI, cursorJ, gp);
 
             // Position ship till it is of a valid position
             while (!newShip.isValidPosition(board)) {

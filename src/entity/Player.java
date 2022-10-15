@@ -80,8 +80,7 @@ public class Player {
         isVertical = false;
 
         // Create new ship object
-        Ship newShip = new Ship(len, isVertical, cursorI, cursorJ);
-
+        Ship newShip = new Ship(len, isVertical, cursorI, cursorJ, gp);
         while (!newShip.isValidPosition(board)) {
 
             // Get mouse input for coordinate of ship
@@ -102,6 +101,7 @@ public class Player {
 
                 // If right click detected, rotate ship
                 if (gp.mouseHandler.rightClicked()) {
+                    gp.playSFX(9);
                     isVertical = isVertical ? false : true;
                     gp.mouseHandler.resetRightClick();
                 }
@@ -112,6 +112,7 @@ public class Player {
         // Place ship onto board and add to fleet array
         newShip.placeOnBoard(board, order);
         fleet.add(newShip);
+        gp.playSFX(6);
     }
 
     public void updateBoardCoordinates() {

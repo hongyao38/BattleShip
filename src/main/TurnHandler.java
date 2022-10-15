@@ -59,6 +59,8 @@ public class TurnHandler {
         // If miss
         if (enemyBoard[i][j] == ' ') {
             enemyBoard[i][j] = 'M';
+            gp.playSFX(3);
+
             waitTime(1000);
             return;
 
@@ -69,11 +71,12 @@ public class TurnHandler {
         Ship shipHit = enemy.fleet.get(shipIndex);
 
         // Deduct health
-        shipHit.health--;
+        shipHit.getHit();
 
         // If ship's health reaches 0, minus from total ships left
         if (shipHit.health == 0) {
             enemy.shipsLeft--;
+            gp.playSFX(8);
             player.showDialogue(String.format("We have sunk one of their ships! (Length %d)", shipHit.length));
         }
 
@@ -117,6 +120,7 @@ public class TurnHandler {
         if (playerBoard[enemy.cursorI][enemy.cursorJ] == ' ') {
             
             playerBoard[enemy.cursorI][enemy.cursorJ] = 'M';
+            gp.playSFX(3);
 
             // If ship is spotted and missed, just remove the coordinate from possible moves
             if (enemy.huntMode) {
@@ -164,10 +168,11 @@ public class TurnHandler {
         }
 
         // Deduct health
-        shipHit.health--;
+        shipHit.getHit();
 
         // If ship's health reaches 0, minus from total ships left
         if (shipHit.health == 0) {
+            gp.playSFX(7);
             player.shipsLeft--;
 
             // AI will also get to know if they sunk a ship, thus turning off hunt-mode
