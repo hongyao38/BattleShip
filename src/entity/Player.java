@@ -15,7 +15,7 @@ public class Player {
     public List<Ship> fleet = new ArrayList<>();
 
     // Game states
-    public boolean inSetUpPhase = true;
+    public boolean inSetUpPhase = false;
     public boolean inPlayPhase = false;
     public boolean inDialoguePhase = false;
     public Dialogue dialogue = new Dialogue("app/res/tiles/Admiral.png", "ADMIRAL MACARTHUR");

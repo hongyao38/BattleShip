@@ -6,6 +6,7 @@ import javax.swing.*;
 import entity.*;
 import sound.Sound;
 import ui.*;
+import ui.screens.MainMenu;
 
 public class GamePanel extends JPanel implements Runnable {
     
@@ -29,7 +30,11 @@ public class GamePanel extends JPanel implements Runnable {
     public TurnHandler turnHandler   = new TurnHandler(this);
     public Player player             = new Player(this);
     public Enemy enemy               = new Enemy(this);
-    
+
+    // Screens
+    public MainMenu mainMenu         = new MainMenu(this);
+    public boolean inMenu            = true;
+
 
     public GamePanel() {
         // Create game screen
@@ -45,12 +50,14 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
 
-        newGame();
+        while (true) {
+            while (inMenu)
+                mainMenu.startMenu();
+        }
     }
 
     public void newGame() {
-        if (soundHandler.isPlaying()) stopMusic();
-        playMusic(0);
+        playMusic(1);
         soundHandler.setVolume(0.25f);
 
         // Show tutorial to draw board, then set up board
@@ -116,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.updateBoardCoordinates();
+        mainMenu.animateMenu();
     }
 
     public void paintComponent(Graphics g) {
@@ -123,40 +131,45 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D)g;
 
-        // Draw the board
-        uiHandler.drawGrid(g2);
-        uiHandler.drawTurn(g2);
+        if (inMenu) {
+            mainMenu.drawMenu(g2);
 
-        // Reveal enemy ships once game over
-        if (turnHandler.playerWin || turnHandler.playerLose) {
-            uiHandler.drawHitsMisses(g2, enemy.board);
-            uiHandler.drawPlacedShip(g2, enemy.fleet);
-        }
+        } else {
+            // Draw the board
+            uiHandler.drawGrid(g2);
+            uiHandler.drawTurn(g2);
 
-        // Draw set-up phase
-        if (player.inSetUpPhase) {
-            uiHandler.drawPlacedShip(g2, player.fleet);
-        }
-
-        // Draw board hover cursor
-        if (player.inPlayPhase) {
-
-            if (turnHandler.isPlayerTurn) {
-                uiHandler.drawSunkShips(g2, enemy.fleet);
+            // Reveal enemy ships once game over
+            if (turnHandler.playerWin || turnHandler.playerLose) {
                 uiHandler.drawHitsMisses(g2, enemy.board);
-                uiHandler.drawHoverCursor(g2, player.cursorI, player.cursorJ);
+                uiHandler.drawPlacedShip(g2, enemy.fleet);
             }
 
-            if (!turnHandler.isPlayerTurn) {
+            // Draw set-up phase
+            if (player.inSetUpPhase) {
                 uiHandler.drawPlacedShip(g2, player.fleet);
-                uiHandler.drawHitsMisses(g2, player.board);
-                uiHandler.showEnemyCursor(g2, enemy.cursorI, enemy.cursorJ);
             }
-        }
 
-        // Draw dialogue box
-        if (player.inDialoguePhase) {
-            uiHandler.drawDialogueWindow(g2, player.dialogue);
+            // Draw board hover cursor
+            if (player.inPlayPhase) {
+
+                if (turnHandler.isPlayerTurn) {
+                    uiHandler.drawSunkShips(g2, enemy.fleet);
+                    uiHandler.drawHitsMisses(g2, enemy.board);
+                    uiHandler.drawHoverCursor(g2, player.cursorI, player.cursorJ);
+                }
+
+                if (!turnHandler.isPlayerTurn) {
+                    uiHandler.drawPlacedShip(g2, player.fleet);
+                    uiHandler.drawHitsMisses(g2, player.board);
+                    uiHandler.showEnemyCursor(g2, enemy.cursorI, enemy.cursorJ);
+                }
+            }
+
+            // Draw dialogue box
+            if (player.inDialoguePhase) {
+                uiHandler.drawDialogueWindow(g2, player.dialogue);
+            }
         }
 
         // Draw cursor (FOREVER)

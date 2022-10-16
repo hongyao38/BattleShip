@@ -10,7 +10,7 @@ import javax.sound.sampled.FloatControl;
 public class Sound {
     
     private Clip clip;
-    private File soundURL[] = new File[10];
+    private File soundURL[] = new File[15];
     private int soundNum;
 
     public Sound() {
@@ -24,6 +24,7 @@ public class Sound {
         addNewClip("app/res/clips/error.wav");     // 7
         addNewClip("app/res/clips/shipSunk.wav");  // 8
         addNewClip("app/res/clips/rotate.wav");    // 9
+        addNewClip("app/res/clips/gameStart.wav"); // 10
     }
 
     private void addNewClip(String filepath) {

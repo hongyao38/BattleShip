@@ -17,7 +17,7 @@ public class UIHandler {
 
     public UIHandler(GamePanel gp) {
         this.gp = gp;
-        tiles = new Tile[35];
+        tiles = new Tile[36];
 
         getTileImage();
     }
@@ -62,6 +62,10 @@ public class UIHandler {
             addNewTile("app/res/tiles/EnemyAvatar.png");           // 29
             addNewTile("app/res/tiles/Win.png");                   // 30
             addNewTile("app/res/tiles/Lose.png");                  // 31
+            addNewTile("app/res/tiles/startButton0.png");          // 32
+            addNewTile("app/res/tiles/startButton1.png");          // 33
+            addNewTile("app/res/tiles/quitButton0.png");           // 34
+            addNewTile("app/res/tiles/quitButton1.png");           // 35
 
         } catch (IOException e) {
             e.printStackTrace();
