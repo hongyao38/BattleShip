@@ -51,7 +51,8 @@ public class MainMenu {
     }
 
     public void startMenu() {
-        if (!gp.soundHandler.isPlaying()) gp.playMusic(0);
+        gp.stopMusic();
+        gp.playMusic(0);
         gp.soundHandler.setVolume(0.25f);
         int x = -1;
         int y = -1;
@@ -91,6 +92,7 @@ public class MainMenu {
             // Exit menu and start new game
             gp.inMenu = false;
             gp.player.inSetUpPhase = true;
+            gp.player.inPlayPhase = true;
             gp.newGame();
         }
 

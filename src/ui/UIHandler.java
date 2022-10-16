@@ -132,6 +132,9 @@ public class UIHandler {
     // Cursor Drawing Methods
 
     public void drawHoverCursor(Graphics2D g2, int cursorI, int cursorJ) {
+        int width = gp.player.currentShipLength * gp.tileSize;
+        int height = gp.tileSize;
+
         // If cursor exceeds top left corner
         if (cursorI < 0 || cursorJ < 0) {
             return;
@@ -139,13 +142,16 @@ public class UIHandler {
         
         // If cursor exceeds right side of board
         if (gp.player.isVertical) {
+            int temp = width; width = height; height = temp;
+
             if (cursorI > 10 - gp.player.currentShipLength) {
                 cursorI = 10 - gp.player.currentShipLength;
             }
             if (cursorJ > 9) {
                 cursorJ = 9;
                 g2.drawImage(gp.uiHandler.getShipTile(gp.player.currentShipLength, gp.player.isVertical).image, 
-                                gp.tileSize * 10, gp.tileSize * (cursorI + 1), null);
+                                gp.tileSize * 10, gp.tileSize * (cursorI + 1), 
+                                width, height, null);
                 return;
             }
             
@@ -156,13 +162,15 @@ public class UIHandler {
             if (cursorI > 9) {
                 cursorI = 9;
                 g2.drawImage(gp.uiHandler.getShipTile(gp.player.currentShipLength, gp.player.isVertical).image, 
-                                gp.tileSize * (cursorJ + 1), gp.tileSize * 10, null);
+                                gp.tileSize * (cursorJ + 1), gp.tileSize * 10, 
+                                width, height, null);
                 return;
             }
         }
 
         g2.drawImage(gp.uiHandler.getShipTile(gp.player.currentShipLength, gp.player.isVertical).image, 
-                                gp.tileSize * (cursorJ + 1), gp.tileSize * (cursorI + 1), null);
+                                gp.tileSize * (cursorJ + 1), gp.tileSize * (cursorI + 1), 
+                                width, height, null);
     }
 
     public void drawMainCursor(Graphics2D g2, int x, int y) {
@@ -199,14 +207,14 @@ public class UIHandler {
 
     public void drawTurn(Graphics2D g2) {
         if (gp.turnHandler.isPlayerTurn) {
-            g2.drawImage(tiles[15].image, gp.tileSize * 12, gp.tileSize * 1, null);
-            g2.drawImage(tiles[28].image, gp.tileSize * 12, gp.tileSize * 5, null);
-            g2.drawImage(tiles[gp.turnHandler.textBubbleNum].image, 12 * gp.tileSize, 6 * gp.tileSize, null);
+            g2.drawImage(tiles[15].image, gp.tileSize * 12, gp.tileSize * 1, gp.tileSize * 3, gp.tileSize * 3, null);
+            g2.drawImage(tiles[28].image, gp.tileSize * 12, gp.tileSize * 5, 3 * gp.tileSize, 6 * gp.tileSize, null);
+            g2.drawImage(tiles[gp.turnHandler.textBubbleNum].image, 12 * gp.tileSize, 6 * gp.tileSize, 3 * gp.tileSize, gp.tileSize, null);
         }
         if (!gp.turnHandler.isPlayerTurn) {
-            g2.drawImage(tiles[16].image, gp.tileSize * 12, gp.tileSize * 1, null);
-            g2.drawImage(tiles[29].image, gp.tileSize * 12, gp.tileSize * 5, null);
-            g2.drawImage(tiles[gp.turnHandler.textBubbleNum].image, 12 * gp.tileSize, 6 * gp.tileSize, null);
+            g2.drawImage(tiles[16].image, gp.tileSize * 12, gp.tileSize * 1, gp.tileSize * 3, gp.tileSize * 3, null);
+            g2.drawImage(tiles[29].image, gp.tileSize * 12, gp.tileSize * 5, 3 * gp.tileSize, 6 * gp.tileSize, null);
+            g2.drawImage(tiles[gp.turnHandler.textBubbleNum].image, 12 * gp.tileSize, 6 * gp.tileSize, 3 * gp.tileSize, gp.tileSize, null);
         }
     }
 

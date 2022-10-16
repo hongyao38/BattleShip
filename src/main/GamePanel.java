@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
     // Screens
     public MainMenu mainMenu         = new MainMenu(this);
     public boolean inMenu            = true;
+    public boolean showTutorial      = true;
 
 
     public GamePanel() {
@@ -50,9 +51,8 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
 
-        while (true) {
-            while (inMenu)
-                mainMenu.startMenu();
+        while (inMenu) {
+            mainMenu.startMenu();
         }
     }
 
@@ -60,19 +60,25 @@ public class GamePanel extends JPanel implements Runnable {
         playMusic(1);
         soundHandler.setVolume(0.25f);
 
-        // Show tutorial to draw board, then set up board
-        player.showDialogue("Position your ships to prepare for battle!");
-        player.showDialogue("LMB to place a ship, RMB to rotate");
+        if (showTutorial) {
+            // Show tutorial to draw board, then set up board
+            player.showDialogue("Position your ships to prepare for battle!");
+            player.showDialogue("LMB to place a ship, RMB to rotate");
+        }
+
+        player.fleet.clear();
         player.initBoard();
 
-        // Show tutorial to attack enemy
-        player.showDialogue("The enemy has also gotten their fleet ready for battle.");
-        player.inSetUpPhase = false;
-        player.showDialogue("You are now staring at the enemy fleet's location");
-        player.showDialogue("Press on a grid square to attack that area");
-        player.showDialogue("Misses will be marked with a white X");
-        player.showDialogue("Hits will be marked with a red crosshair");
-        player.showDialogue("Eliminate all enemy ships to win!");
+        if (showTutorial) {
+            // Show tutorial to attack enemy
+            player.showDialogue("The enemy has also gotten their fleet ready for battle.");
+            player.inSetUpPhase = false;
+            player.showDialogue("You are now staring at the enemy fleet's location");
+            player.showDialogue("Press on a grid square to attack that area");
+            player.showDialogue("Misses will be marked with a white X");
+            player.showDialogue("Hits will be marked with a red crosshair");
+            player.showDialogue("Eliminate all enemy ships to win!");
+        }
 
         // Battle Phase
         while (!turnHandler.playerWin && !turnHandler.playerLose) {
@@ -96,7 +102,11 @@ public class GamePanel extends JPanel implements Runnable {
             playSFX(5);
             player.showDialogue("Ugh! They have sunk all of our ship!");
         }
+
+        turnHandler.waitTime(3000);
+        showTutorial = false;
         player.inPlayPhase = false;
+        inMenu = true;
     }
 
     @Override
